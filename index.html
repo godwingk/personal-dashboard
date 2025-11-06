@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="header">
+        <div class="header-left">
+          <h1><i class="fas fa-tachometer-alt"></i> Personal Dashboard</h1>
+          <div class="live-datetime">
+            <div class="live-time" id="liveTime">00:00:00</div>
+            <div class="live-date" id="liveDate">Loading...</div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="motivational-quote" id="motivationalQuote">
+            "Success is the sum of small efforts repeated day in and day out."
+          </div>
+          <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="stats-overview">
+          <div class="stat-card">
+            <div class="stat-icon study">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Study Hours</h3>
+              <span class="stat-value" id="studyHours">0h</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon work">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Work Hours</h3>
+              <span class="stat-value" id="workHours">0h</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon play">
+              <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Play Hours</h3>
+              <span class="stat-value" id="playHours">0h</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon sleep">
+              <i class="fas fa-bed"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Sleep Hours</h3>
+              <span class="stat-value" id="sleepHours">0h</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon total">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-info">
+              <h3>Total Tasks</h3>
+              <span class="stat-value" id="totalTasks">0</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="add-task-section">
+          <div class="add-task-card">
+            <h2><i class="fas fa-plus-circle"></i> Add New Task</h2>
+            <form class="add-task-form" id="addTaskForm">
+              <div class="form-group">
+                <label for="taskName">Task Name</label>
+                <input
+                  type="text"
+                  id="taskName"
+                  placeholder="Enter task name..."
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="taskCategory">Category</label>
+                <select id="taskCategory" required>
+                  <option value="">Select category</option>
+                  <option value="study">📚 Study</option>
+                  <option value="work">💼 Work</option>
+                  <option value="play">🎮 Play</option>
+                  <option value="sleep">😴 Sleep</option>
+                  <option value="exercise">💪 Exercise</option>
+                  <option value="other">📝 Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="taskDuration">Duration</label>
+                <div class="duration-input">
+                  <input
+                    type="number"
+                    id="taskHours"
+                    placeholder="Hours"
+                    min="0"
+                    max="23"
+                    value="0"
+                  />
+                  <span>h</span>
+                  <input
+                    type="number"
+                    id="taskMinutes"
+                    placeholder="Minutes"
+                    min="0"
+                    max="59"
+                    value="0"
+                  />
+                  <span>m</span>
+                </div>
+              </div>
+
+              <button type="submit" class="add-btn">
+                <i class="fas fa-plus"></i> Add Task
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="tasks-section">
+            <div class="section-header">
+              <h2><i class="fas fa-list"></i> Today's Tasks</h2>
+              <div class="task-filters">
+                <button
+                  class="filter-btn active"
+                  id="allTasksBtn"
+                  data-filter="all"
+                >
+                  <i class="fas fa-list"></i> All
+                </button>
+                <button
+                  class="filter-btn"
+                  id="pendingTasksBtn"
+                  data-filter="pending"
+                >
+                  <i class="fas fa-clock"></i> Pending
+                </button>
+                <button
+                  class="filter-btn"
+                  id="completedTasksBtn"
+                  data-filter="completed"
+                >
+                  <i class="fas fa-check"></i> Completed
+                </button>
+              </div>
+              <button class="clear-all-btn" id="clearAllBtn">
+                <i class="fas fa-trash"></i> Clear All Data
+              </button>
+            </div>
+            <div class="tasks-container" id="tasksContainer">
+              <div class="empty-state" id="emptyState">
+                <i class="fas fa-clipboard-list"></i>
+                <p>No tasks added yet. Start by adding your first task!</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="charts-section">
+            <div class="chart-card">
+              <h3><i class="fas fa-chart-pie"></i> Time Distribution</h3>
+              <div class="chart-container">
+                <canvas id="timeChart"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3><i class="fas fa-chart-bar"></i> Daily Progress</h3>
+              <div class="progress-bars" id="progressBars">
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3><i class="fas fa-edit"></i> Edit Task</h3>
+          <button class="close-btn" id="closeModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form class="edit-task-form" id="editTaskForm">
+          <div class="form-group">
+            <label for="editTaskName">Task Name</label>
+            <input type="text" id="editTaskName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="editTaskCategory">Category</label>
+            <select id="editTaskCategory" required>
+              <option value="study">📚 Study</option>
+              <option value="work">💼 Work</option>
+              <option value="play">🎮 Play</option>
+              <option value="sleep">😴 Sleep</option>
+              <option value="exercise">💪 Exercise</option>
+              <option value="other">📝 Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="editTaskDuration">Duration</label>
+            <div class="duration-input">
+              <input type="number" id="editTaskHours" min="0" max="23" />
+              <span>h</span>
+              <input type="number" id="editTaskMinutes" min="0" max="59" />
+              <span>m</span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelEdit">
+              Cancel
+            </button>
+            <button type="submit" class="save-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
